@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import Card from "../components/Card.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import WaveDivider from "../components/WaveDivider.astro";
 import {
   CircleCheck,
   CircleX,
@@ -24,9 +23,9 @@ import {
   <!-- ============================================
        HERO — merged header + services
        ============================================ -->
-  <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
-    <!-- Scattered decorative dots -->
-    <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
+  <section class="relative pt-10 pb-14 md:pt-16 md:pb-20 overflow-hidden bg-cover bg-bottom bg-no-repeat" style="background-image: url('/images/banner.png');">
+    <!-- Overlay for readability -->
+    <div class="absolute inset-0 bg-background/80"></div>
 
     <div
       class="relative max-w-[1140px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
@@ -107,24 +106,22 @@ import {
         <img
           src="/images/logo-recre-reussite.png"
           alt="Logo Récré & Réussite"
-          class="w-64 md:w-80 lg:w-96 h-auto drop-shadow-lg float"
+          class="w-64 md:w-80 lg:w-96 h-auto drop-shadow-lg"
         />
       </div>
     </div>
   </section>
 
-  <WaveDivider color="#F5F0E8" />
-
   <!-- ============================================
        ABOUT JULIE — organic, warm
        ============================================ -->
-  <section class="relative -mt-1 py-16 md:py-24 overflow-hidden">
+  <section class="relative py-16 md:py-24 overflow-hidden bg-card">
     <div
       class="absolute top-10 right-20 w-20 h-20 bg-yellow/10 puzzle-piece rotate-12 float-delay"
     >
     </div>
 
-    <div class="max-w-[900px] mx-auto px-6">
+    <div class="max-w-[900px] mx-auto px-6 reveal">
       <SectionHeading subtitle="Présentation" title="Qui suis-je ?" />
 
       <div class="bg-card rounded-card overflow-hidden shadow-lg">
@@ -160,10 +157,8 @@ import {
   <!-- ============================================
        JE PEUX / JE NE PEUX PAS
        ============================================ -->
-  <WaveDivider color="#FFFFFF" />
-
-  <section class="bg-card -mt-1 py-16 md:py-24">
-    <div class="max-w-[1140px] mx-auto px-6">
+  <section class="bg-background py-16 md:py-24">
+    <div class="max-w-[1140px] mx-auto px-6 reveal">
       <SectionHeading
         subtitle="Services"
         title="Ce que je propose"
@@ -297,15 +292,13 @@ import {
   <!-- ============================================
        TESTIMONIAL
        ============================================ -->
-  <WaveDivider color="#FFF8E7" />
-
-  <section class="bg-cream -mt-1 py-16 md:py-24 relative overflow-hidden">
+  <section class="bg-card py-16 md:py-24 relative overflow-hidden">
     <div
       class="absolute bottom-10 right-16 w-16 h-16 bg-cta/8 puzzle-piece -rotate-6 float"
     >
     </div>
 
-    <div class="max-w-[750px] mx-auto px-6 text-center">
+    <div class="max-w-[750px] mx-auto px-6 text-center reveal">
       <SectionHeading
         subtitle="Témoignage"
         title="Ce qu'ils en disent"
@@ -344,10 +337,8 @@ import {
   <!-- ============================================
        GALLERY
        ============================================ -->
-  <WaveDivider color="#F5F0E8" />
-
-  <section class="-mt-1 py-16 md:py-24">
-    <div class="max-w-[1140px] mx-auto px-6">
+  <section class="py-16 md:py-24">
+    <div class="max-w-[1140px] mx-auto px-6 reveal">
       <SectionHeading
         subtitle="En images"
         title="Moments partagés"
@@ -507,4 +498,19 @@ import {
       </script>
     </div>
   </section>
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
 </BaseLayout>
