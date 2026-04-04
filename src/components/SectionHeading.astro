@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  accent?: string;
+}
+
+const { title, subtitle, accent } = Astro.props;
+---
+
+<div class="text-center mb-14">
+  {subtitle && (
+    <p class="text-text-light uppercase tracking-[0.2em] text-sm font-bold mb-3">
+      {subtitle}
+    </p>
+  )}
+  <h2 class="font-display text-primary text-[32px] md:text-[44px] leading-tight">
+    <Fragment set:html={accent
+      ? title.replace(accent, `<span class="text-cta">${accent}</span>`)
+      : title
+    } />
+  </h2>
+</div>

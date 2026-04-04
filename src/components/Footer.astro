@@ -1,0 +1,67 @@
+---
+import WaveDivider from "./WaveDivider.astro";
+import { Phone, Mail, MapPin } from "@lucide/astro";
+---
+
+<WaveDivider color="#1B5DA7" />
+
+<footer class="bg-primary text-white -mt-1">
+  <div class="max-w-[1140px] mx-auto px-6 pt-16 pb-8">
+    <div class="text-center mb-12">
+      <p
+        class="uppercase tracking-[0.2em] text-sm text-white/60 font-bold mb-2"
+      >
+        Récré & Réussite
+      </p>
+      <h3 class="font-display text-3xl text-yellow">
+        Votre partenaire garde d'enfants
+      </h3>
+    </div>
+
+    <div
+      class="flex flex-col md:flex-row justify-center gap-8 md:gap-16 mb-12 text-center"
+    >
+      <a
+        href="tel:+33607790026"
+        class="flex items-center gap-3 justify-center hover:text-yellow transition-colors"
+      >
+        <span
+          class="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center"
+        >
+          <Phone class="w-5 h-5" />
+        </span>
+        <span class="font-bold">06 07 79 00 26</span>
+      </a>
+      <a
+        href="mailto:recre-reussite@outlook.fr"
+        class="flex items-center gap-3 justify-center hover:text-yellow transition-colors"
+      >
+        <span
+          class="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center"
+        >
+          <Mail class="w-5 h-5" />
+        </span>
+        <span class="font-bold">recre-reussite@outlook.fr</span>
+      </a>
+      <span class="flex items-center gap-3 justify-center">
+        <span
+          class="w-10 h-10 rounded-full border-2 border-white/30 flex items-center justify-center"
+        >
+          <MapPin class="w-5 h-5" />
+        </span>
+        <span class="font-bold">Caen (14)</span>
+      </span>
+    </div>
+
+    <div
+      class="border-t border-white/15 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50"
+    >
+      <p>
+        &copy; {new Date().getFullYear()} Récré & Réussite · Tous droits réservés
+      </p>
+      <p class="text-xs max-w-md text-center md:text-right">
+        Julie Bazin, entrepreneur individuel — SIREN 103&nbsp;076&nbsp;949
+      </p>
+    </div>
+  </div>
+</footer>

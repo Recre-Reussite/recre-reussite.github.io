@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import { Construction } from "@lucide/astro";
+---
+
+<BaseLayout title="Prix & Aides">
+  <section class="relative py-24 md:py-36 overflow-hidden">
+    <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
+    <div class="absolute top-20 right-16 w-20 h-20 bg-yellow/10 puzzle-piece rotate-12 float"></div>
+
+    <div class="relative max-w-[1140px] mx-auto px-6 flex flex-col items-center text-center">
+      <div class="w-20 h-20 dashed-circle flex items-center justify-center text-cta mb-6">
+        <Construction class="w-10 h-10" />
+      </div>
+      <h1 class="font-display text-primary text-4xl mb-4">Page en construction</h1>
+      <p class="text-text-light font-semibold mb-8 max-w-md">
+        Le simulateur d'aides et la grille tarifaire seront bientôt disponibles.
+      </p>
+      <Button href="/" variant="secondary">Retour à l'accueil</Button>
+    </div>
+  </section>
+</BaseLayout>
