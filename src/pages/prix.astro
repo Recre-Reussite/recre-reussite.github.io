@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import WaveDivider from "../components/WaveDivider.astro";
 import {
   Calculator,
   Info,
@@ -17,8 +16,8 @@ import {
   title="Prix & Aides"
   description="Simulateur tarifaire pour estimer votre budget garde d'enfants avec les aides CAF et le crédit d'impôt."
 >
-  <!-- Section 1: Static Pricing Table (placeholder) -->
-  <section class="relative py-16 md:py-24 overflow-hidden">
+  <!-- Section 1: Static Pricing Table -->
+  <section class="relative pt-16 md:pt-24 pb-8 md:pb-12 overflow-hidden">
     <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
     <div
       class="absolute top-20 right-16 w-20 h-20 bg-yellow/10 puzzle-piece rotate-12 float"
@@ -28,21 +27,47 @@ import {
     <div class="relative max-w-[1140px] mx-auto px-6">
       <SectionHeading subtitle="Tarifs" title="Nos tarifs" accent="tarifs" />
 
-      <!-- TODO: Static pricing table — will be added in a separate task -->
-      <div
-        class="max-w-[800px] mx-auto bg-card rounded-card shadow-lg p-8 md:p-10 text-center"
-      >
-        <p class="text-text-light font-semibold">
-          La grille tarifaire détaillée sera bientôt disponible.
-        </p>
+      <div class="max-w-[800px] mx-auto bg-card rounded-card shadow-lg p-8 md:p-10">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-b-2 border-border">
+              <th class="py-3 pr-4 font-bold text-text text-sm uppercase tracking-wide">Prestation</th>
+              <th class="py-3 pl-4 text-right font-bold text-text text-sm uppercase tracking-wide">Prix unitaire</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/50">
+            <tr>
+              <td class="py-4 pr-4 font-semibold text-text">Garde — 1 heure</td>
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg">25,90 €</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-4 font-semibold text-text">Garde — 1 journée</td>
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg">259,00 €</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-4 font-semibold text-text">Frais de déplacement</td>
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg">0,80 € / km</td>
+            </tr>
+            <tr>
+              <td class="py-4 pr-4 font-semibold text-text">Suppléments activité</td>
+              <td class="py-4 pl-4 text-right font-bold text-secondary text-lg">Sur devis</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="mt-6 bg-cream rounded-card p-4 flex items-start gap-3">
+          <Info class="w-5 h-5 text-purple shrink-0 mt-0.5" />
+          <p class="text-text-light font-semibold text-sm leading-relaxed">
+            Les frais kilométriques ne sont pas inclus dans le simulateur ci-dessous.
+            Ils seront calculés en fonction de la distance entre votre domicile et celui de Julie.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
-  <WaveDivider color="#F5F0E8" />
-
   <!-- Section 2: Price Simulator -->
-  <section class="relative py-16 md:py-24 overflow-hidden bg-background">
+  <section class="relative pt-8 md:pt-12 pb-16 md:pb-24 overflow-hidden">
     <div
       class="absolute bottom-20 left-10 w-16 h-16 bg-cta/8 puzzle-piece -rotate-6 float-delay"
     >
@@ -236,7 +261,7 @@ import {
                   >Taux horaire</span
                 >
                 <span id="result-hourly-rate" class="font-bold text-text"
-                  >12,00 €/h</span
+                  >25,90 €/h</span
                 >
               </div>
 
@@ -349,7 +374,7 @@ import {
   // ========================================================
 
   // --- Configurable rates (update these as needed) ---
-  const BASE_HOURLY_RATE = 12.0;
+  const BASE_HOURLY_RATE = 25.9;
   const EXTRA_CHILD_RATE_INCREASE = 0.2; // +20% per child from the 3rd
   const FREE_CHILDREN_THRESHOLD = 2;
 

@@ -46,7 +46,7 @@ Client-side price simulator for garde à domicile (childcare at the family's hom
 
 | Constant | Default | Description |
 |----------|---------|-------------|
-| `BASE_HOURLY_RATE` | 12.00 | Julie's base hourly rate (€) |
+| `BASE_HOURLY_RATE` | 25.90 | Julie's base hourly rate (€) |
 | `EXTRA_CHILD_RATE_INCREASE` | 0.20 | +20% per child from the 3rd |
 | `FREE_CHILDREN_THRESHOLD` | 2 | No surcharge for first N children |
 
