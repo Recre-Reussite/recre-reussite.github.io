@@ -16,7 +16,7 @@ const { title, subtitle, accent } = Astro.props;
   )}
   <h2 class="font-display text-primary text-[32px] md:text-[44px] leading-tight">
     <Fragment set:html={accent
-      ? title.replace(accent, `<span class="text-cta">${accent}</span>`)
+      ? title.replace(accent, `<span class="marker-highlight">${accent}</span>`)
       : title
     } />
   </h2>

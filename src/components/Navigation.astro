@@ -1,10 +1,12 @@
 ---
+import { Home, Calculator, MessageCircle } from "@lucide/astro";
+
 const currentPath = Astro.url.pathname;
 
 const links = [
-  { href: "/", label: "Présentation" },
-  { href: "/prix", label: "Prix & Aides" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "Présentation", icon: Home, color: "text-primary" },
+  { href: "/prix", label: "Prix & Aides", icon: Calculator, color: "text-secondary" },
+  { href: "/contact", label: "Contact", icon: MessageCircle, color: "text-cta" },
 ];
 ---
 
@@ -20,17 +22,18 @@ const links = [
 
     <!-- Desktop nav -->
     <div class="hidden md:flex items-center gap-8">
-      {links.map((link) => (
+      {links.map(({ href, label, icon: Icon, color }) => (
         <a
-          href={link.href}
+          href={href}
           class:list={[
-            "font-bold text-sm uppercase tracking-widest transition-colors duration-200",
-            currentPath === link.href
-              ? "text-cta"
+            "nav-link flex items-center gap-2 font-bold text-sm uppercase tracking-widest transition-colors duration-200",
+            currentPath === href
+              ? `text-cta nav-link-active`
               : "text-text hover:text-primary",
           ]}
         >
-          {link.label}
+          <Icon class:list={["w-4 h-4", currentPath === href ? "text-cta" : color]} />
+          {label}
         </a>
       ))}
     </div>
@@ -51,18 +54,19 @@ const links = [
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-card border-t border-border pb-4">
     <ul class="flex flex-col px-6 py-4 gap-3">
-      {links.map((link) => (
+      {links.map(({ href, label, icon: Icon, color }) => (
         <li>
           <a
-            href={link.href}
+            href={href}
             class:list={[
-              "block font-bold text-lg py-2 transition-colors",
-              currentPath === link.href
+              "flex items-center gap-3 font-bold text-lg py-2 transition-colors",
+              currentPath === href
                 ? "text-cta"
                 : "text-text hover:text-primary",
             ]}
           >
-            {link.label}
+            <Icon class:list={["w-5 h-5", currentPath === href ? "text-cta" : color]} />
+            {label}
           </a>
         </li>
       ))}

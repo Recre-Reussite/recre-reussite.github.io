@@ -11,60 +11,49 @@ const {
   tabPosition = "center",
 } = Astro.props;
 
-// Tab center X positions
-const positions = { left: 380, center: 720, right: 1060 };
+// Positions X du centre de la languette
+const positions = { left: 200, center: 720, right: 1240 };
 const cx = positions[tabPosition];
 
-// Classic puzzle connector shape:
-//   ___/  \___     ← "ears" indent inward
-//      |  |        ← narrow neck
-//     /    \       ← head expands
-//    (      )      ← round head
-//     \____/
-//
-const base = 45; // baseline Y
+const base = 40; // La ligne d'horizon
+const headRadius = 35; // Rayon de la tête du puzzle
+const neckWidth = 20; // Demi-largeur du col
 
 const d = [
-  // Fill the top section
-  `M0,0 H1440 V${base}`,
+  // 1. On part du coin haut-gauche
+  `M 0,0`,
+  // 2. Ligne droite jusqu'au bord haut-droit
+  `H 1440`,
+  // 3. Descente jusqu'à la ligne de base
+  `V ${base}`,
+  // 4. Ligne droite jusqu'au début de l'attache (côté droit)
+  `H ${cx + neckWidth + 20}`,
 
-  // Straight to right edge of connector opening
-  `H${cx + 40}`,
+  // 5. COURBE DU PUZZLE (Tracé de droite à gauche)
+  // Entrée vers le col (arrondi vers l'extérieur)
+  `C ${cx + neckWidth},${base} ${cx + neckWidth},${base} ${cx + neckWidth},${base + 10}`,
+  // Côté droit de la tête (on gonfle vers la droite puis on descend)
+  `C ${cx + headRadius + 10},${base + 15} ${cx + headRadius + 10},${base + 65} ${cx},${base + 65}`,
+  // Côté gauche de la tête (on remonte et on gonfle vers la gauche)
+  `C ${cx - headRadius - 10},${base + 65} ${cx - headRadius - 10},${base + 15} ${cx - neckWidth},${base + 10}`,
+  // Sortie du col vers la ligne de base
+  `C ${cx - neckWidth},${base} ${cx - neckWidth},${base} ${cx - (neckWidth + 20)},${base}`,
 
-  // Right "ear": edge curves INWARD (upward into the piece) — the locking indent
-  `C${cx + 40},${base} ${cx + 36},${base - 8} ${cx + 14},${base - 8}`,
-
-  // Right side of neck, then expands into head
-  `C${cx + 14},${base - 8} ${cx + 14},${base + 12} ${cx + 32},${base + 22}`,
-
-  // Right side of head curves down
-  `C${cx + 46},${base + 30} ${cx + 46},${base + 52} ${cx + 28},${base + 60}`,
-
-  // Bottom of head rounds across
-  `C${cx + 16},${base + 66} ${cx - 16},${base + 66} ${cx - 28},${base + 60}`,
-
-  // Left side of head curves back up
-  `C${cx - 46},${base + 52} ${cx - 46},${base + 30} ${cx - 32},${base + 22}`,
-
-  // Left neck narrows back
-  `C${cx - 14},${base + 12} ${cx - 14},${base - 8} ${cx - 14},${base - 8}`,
-
-  // Left "ear": back to baseline with inward indent
-  `C${cx - 36},${base - 8} ${cx - 40},${base} ${cx - 40},${base}`,
-
-  // Continue to left edge
-  `H0 Z`,
+  // 6. Finition de la ligne vers la gauche
+  `H 0`,
+  // 7. Fermeture de la forme
+  `Z`,
 ].join(" ");
 ---
 
 <div class="w-full leading-none" style={`background-color: ${bottomColor};`}>
   <svg
-    viewBox="0 0 1440 115"
+    viewBox="0 0 1440 120"
     preserveAspectRatio="none"
-    class="block w-full h-16 md:h-24"
+    class="block w-full h-20 md:h-28"
     fill={topColor}
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d={d} />
+    <path d={d}></path>
   </svg>
 </div>

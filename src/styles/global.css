@@ -107,6 +107,106 @@
 }
 
 /* ========================================
+   MARKER HIGHLIGHT (section heading accent)
+   ======================================== */
+
+.marker-highlight {
+  position: relative;
+  color: var(--color-cta);
+  white-space: nowrap;
+}
+
+.marker-highlight::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 2px;
+  height: 35%;
+  background: var(--color-cta);
+  opacity: 0.15;
+  border-radius: 4px;
+  z-index: -1;
+  transform: rotate(-1deg);
+}
+
+/* ========================================
+   STAGGERED REVEAL (children animate in sequence)
+   ======================================== */
+
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(7) { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(8) { transition-delay: 560ms; opacity: 1; transform: translateY(0); }
+
+/* ========================================
+   HERO ENTRANCE ANIMATIONS
+   ======================================== */
+
+@keyframes hero-slide-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-pop {
+  0% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+  70% { transform: scale(1.1) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-animate-title {
+  animation: hero-slide-up 0.8s ease-out both;
+}
+
+.hero-animate-subtitle {
+  animation: hero-slide-up 0.8s ease-out 0.2s both;
+}
+
+.hero-animate-services {
+  animation: hero-fade-in 0.6s ease-out 0.5s both;
+}
+
+.hero-animate-logo {
+  animation: hero-pop 0.8s ease-out 0.3s both;
+}
+
+.hero-animate-cta {
+  animation: hero-slide-up 0.6s ease-out 0.6s both;
+}
+
+.hero-animate-doodle {
+  animation: hero-pop 0.5s ease-out both;
+}
+
+/* ========================================
+   HOVER CARD LIFT
+   ======================================== */
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) rotate(0.5deg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
    SCROLL REVEAL
    ======================================== */
 
@@ -119,4 +219,33 @@
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ========================================
+   NAV LINK UNDERLINE
+   ======================================== */
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-cta);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link-active::after {
+  width: 100%;
+  background: var(--color-cta);
 }

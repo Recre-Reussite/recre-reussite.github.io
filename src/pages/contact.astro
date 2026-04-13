@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import SectionHeading from "../components/SectionHeading.astro";
+import Doodle from "../components/Doodle.astro";
 import { Phone, Mail, MapPin, Send, Clock } from "@lucide/astro";
 ---
 
@@ -9,13 +10,11 @@ import { Phone, Mail, MapPin, Send, Clock } from "@lucide/astro";
   <section class="relative py-16 md:py-24 overflow-hidden">
     <!-- Decorative -->
     <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
-    <div
-      class="absolute top-20 right-16 w-20 h-20 bg-sky/10 puzzle-piece rotate-12 float"
-    >
+    <div class="absolute top-32 left-[12%] hidden md:block">
+      <Doodle type="star" color="var(--color-yellow)" size={28} class="float opacity-40" />
     </div>
-    <div
-      class="absolute bottom-20 left-10 w-16 h-16 bg-cta/8 puzzle-piece -rotate-6 float-delay"
-    >
+    <div class="absolute bottom-28 right-[8%] hidden md:block">
+      <Doodle type="squiggle" color="var(--color-secondary)" size={25} class="float-delay opacity-30" />
     </div>
 
     <div class="relative max-w-[1140px] mx-auto px-6">
