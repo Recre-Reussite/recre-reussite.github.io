@@ -1,23 +1,557 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
-import { Construction } from "@lucide/astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import WaveDivider from "../components/WaveDivider.astro";
+import {
+  Calculator,
+  Info,
+  Users,
+  Minus,
+  Plus,
+  AlertTriangle,
+} from "@lucide/astro";
 ---
 
-<BaseLayout title="Prix & Aides">
-  <section class="relative py-24 md:py-36 overflow-hidden">
+<BaseLayout
+  title="Prix & Aides"
+  description="Simulateur tarifaire pour estimer votre budget garde d'enfants avec les aides CAF et le crédit d'impôt."
+>
+  <!-- Section 1: Static Pricing Table (placeholder) -->
+  <section class="relative py-16 md:py-24 overflow-hidden">
     <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
-    <div class="absolute top-20 right-16 w-20 h-20 bg-yellow/10 puzzle-piece rotate-12 float"></div>
+    <div
+      class="absolute top-20 right-16 w-20 h-20 bg-yellow/10 puzzle-piece rotate-12 float"
+    >
+    </div>
 
-    <div class="relative max-w-[1140px] mx-auto px-6 flex flex-col items-center text-center">
-      <div class="w-20 h-20 dashed-circle flex items-center justify-center text-cta mb-6">
-        <Construction class="w-10 h-10" />
+    <div class="relative max-w-[1140px] mx-auto px-6">
+      <SectionHeading subtitle="Tarifs" title="Nos tarifs" accent="tarifs" />
+
+      <!-- TODO: Static pricing table — will be added in a separate task -->
+      <div
+        class="max-w-[800px] mx-auto bg-card rounded-card shadow-lg p-8 md:p-10 text-center"
+      >
+        <p class="text-text-light font-semibold">
+          La grille tarifaire détaillée sera bientôt disponible.
+        </p>
       </div>
-      <h1 class="font-display text-primary text-4xl mb-4">Page en construction</h1>
-      <p class="text-text-light font-semibold mb-8 max-w-md">
-        Le simulateur d'aides et la grille tarifaire seront bientôt disponibles.
-      </p>
-      <Button href="/" variant="secondary">Retour à l'accueil</Button>
+    </div>
+  </section>
+
+  <WaveDivider color="#F5F0E8" />
+
+  <!-- Section 2: Price Simulator -->
+  <section class="relative py-16 md:py-24 overflow-hidden bg-background">
+    <div
+      class="absolute bottom-20 left-10 w-16 h-16 bg-cta/8 puzzle-piece -rotate-6 float-delay"
+    >
+    </div>
+
+    <div class="relative max-w-[1140px] mx-auto px-6">
+      <SectionHeading
+        subtitle="Simulateur"
+        title="Estimez votre budget garde d'enfants"
+        accent="budget"
+      />
+
+      <div
+        class="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
+      >
+        <!-- Form -->
+        <div class="md:col-span-7 bg-card rounded-card shadow-lg p-8 md:p-10">
+          <div class="flex items-center gap-3 mb-8">
+            <div
+              class="w-12 h-12 dashed-circle flex items-center justify-center text-primary"
+            >
+              <Calculator class="w-6 h-6" />
+            </div>
+            <h2 class="font-display text-primary text-2xl">Vos informations</h2>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Children count -->
+            <div>
+              <label class="block font-bold text-sm text-text mb-3">
+                Nombre d'enfants à garder
+              </label>
+              <div class="flex items-center gap-4">
+                <button
+                  type="button"
+                  id="children-minus"
+                  aria-label="Retirer un enfant"
+                  class="w-10 h-10 rounded-full border-2 border-border bg-background flex items-center justify-center text-text hover:border-primary hover:text-primary transition-colors cursor-pointer"
+                >
+                  <Minus class="w-4 h-4" />
+                </button>
+                <span
+                  id="children-count"
+                  class="text-2xl font-bold text-primary w-8 text-center"
+                  >1</span
+                >
+                <button
+                  type="button"
+                  id="children-plus"
+                  aria-label="Ajouter un enfant"
+                  class="w-10 h-10 rounded-full border-2 border-border bg-background flex items-center justify-center text-text hover:border-primary hover:text-primary transition-colors cursor-pointer"
+                >
+                  <Plus class="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Child under 6 -->
+            <div id="under6-group">
+              <label class="block font-bold text-sm text-text mb-3">
+                Au moins un enfant a moins de 6 ans ?
+              </label>
+              <div
+                class="flex gap-3"
+                role="radiogroup"
+                aria-label="Enfant de moins de 6 ans"
+              >
+                <button
+                  type="button"
+                  data-under6="true"
+                  class="under6-btn px-6 py-2.5 rounded-pill font-bold text-sm transition-all duration-200 cursor-pointer bg-primary text-white"
+                >
+                  Oui
+                </button>
+                <button
+                  type="button"
+                  data-under6="false"
+                  class="under6-btn px-6 py-2.5 rounded-pill font-bold text-sm transition-all duration-200 cursor-pointer border-2 border-border bg-background text-text"
+                >
+                  Non
+                </button>
+              </div>
+            </div>
+
+            <!-- Weekly hours -->
+            <div>
+              <label
+                for="weekly-hours"
+                class="block font-bold text-sm text-text mb-3"
+              >
+                Heures par semaine
+              </label>
+              <div class="flex items-center gap-4">
+                <input
+                  type="range"
+                  id="weekly-hours-slider"
+                  min="1"
+                  max="50"
+                  value="10"
+                  class="flex-1 accent-primary"
+                />
+                <div class="flex items-center gap-1">
+                  <input
+                    type="number"
+                    id="weekly-hours"
+                    min="1"
+                    max="50"
+                    value="10"
+                    class="w-16 border-2 border-border rounded-card px-3 py-2 font-bold text-center focus:border-primary focus:outline-none transition-colors bg-background"
+                  />
+                  <span class="text-text-light font-semibold text-sm">h</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Annual income -->
+            <div>
+              <label
+                for="annual-income"
+                class="block font-bold text-sm text-text mb-3"
+              >
+                Revenus annuels nets du foyer (N-2)
+              </label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="annual-income"
+                  min="0"
+                  step="1000"
+                  placeholder="ex : 35 000"
+                  class="w-full border-2 border-border rounded-card px-4 py-3 pr-12 font-semibold focus:border-primary focus:outline-none transition-colors bg-background"
+                />
+                <span
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-text-light font-bold"
+                  >€</span
+                >
+              </div>
+            </div>
+
+            <!-- Family situation -->
+            <div>
+              <label class="block font-bold text-sm text-text mb-3">
+                Situation familiale
+              </label>
+              <div
+                class="flex gap-3"
+                role="radiogroup"
+                aria-label="Situation familiale"
+              >
+                <button
+                  type="button"
+                  data-situation="couple"
+                  class="situation-btn px-6 py-2.5 rounded-pill font-bold text-sm transition-all duration-200 cursor-pointer bg-primary text-white"
+                >
+                  En couple
+                </button>
+                <button
+                  type="button"
+                  data-situation="single"
+                  class="situation-btn px-6 py-2.5 rounded-pill font-bold text-sm transition-all duration-200 cursor-pointer border-2 border-border bg-background text-text"
+                >
+                  Parent isolé
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="md:col-span-5 flex flex-col gap-6 md:sticky md:top-24">
+          <div
+            class="bg-card rounded-card shadow-lg p-8"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-12 h-12 dashed-circle flex items-center justify-center text-secondary"
+              >
+                <Calculator class="w-6 h-6" />
+              </div>
+              <h2 class="font-display text-primary text-2xl">
+                Votre estimation
+              </h2>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Hourly rate display -->
+              <div class="flex justify-between items-center py-2">
+                <span class="text-text-light font-semibold text-sm"
+                  >Taux horaire</span
+                >
+                <span id="result-hourly-rate" class="font-bold text-text"
+                  >12,00 €/h</span
+                >
+              </div>
+
+              <!-- Gross cost -->
+              <div class="flex justify-between items-center py-2">
+                <span class="text-text-light font-semibold text-sm"
+                  >Coût mensuel brut</span
+                >
+                <span id="result-gross" class="font-bold text-lg text-text"
+                  >0,00 €</span
+                >
+              </div>
+
+              <!-- CMG -->
+              <div
+                class="flex justify-between items-center py-2 px-3 -mx-3 rounded-card bg-mint"
+              >
+                <span class="text-cta font-semibold text-sm"
+                  >Aide CMG (CAF)</span
+                >
+                <span id="result-cmg" class="font-bold text-lg text-cta"
+                  >- 0,00 €</span
+                >
+              </div>
+
+              <!-- Tax credit -->
+              <div
+                class="flex justify-between items-center py-2 px-3 -mx-3 rounded-card bg-ice"
+              >
+                <span class="text-primary font-semibold text-sm"
+                  >Crédit d'impôt <br />(50 % du reste après CMG CAF)</span
+                >
+                <span
+                  id="result-tax-credit"
+                  class="font-bold text-lg text-primary">- 0,00 €</span
+                >
+              </div>
+
+              <!-- Divider -->
+              <div class="border-t-2 border-dashed border-border my-2"></div>
+
+              <!-- Final cost -->
+              <div
+                class="flex justify-between items-center py-3 px-3 -mx-3 rounded-card bg-cream"
+              >
+                <span class="text-secondary font-bold"
+                  >Reste à votre charge</span
+                >
+                <span
+                  id="result-final"
+                  class="font-display text-2xl text-secondary">0,00 €</span
+                >
+              </div>
+
+              <!-- Effective hourly -->
+              <div class="text-center pt-2">
+                <span class="text-text-light font-semibold text-sm">
+                  soit <span
+                    id="result-effective-hourly"
+                    class="font-bold text-text">0,00</span
+                  > €/h après aides
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info callout -->
+          <div class="bg-cream rounded-card p-6 flex items-start gap-4">
+            <div
+              class="w-10 h-10 dashed-circle flex items-center justify-center text-purple shrink-0 mt-1"
+            >
+              <Info class="w-5 h-5" />
+            </div>
+            <div class="text-text-light font-semibold leading-relaxed text-sm">
+              <p>
+                L'aide CMG concerne les enfants de moins de 6 ans (moins de 12
+                ans pour les parents isolés). Le crédit d'impôt s'applique à
+                tous les enfants.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div
+        class="max-w-[1000px] mx-auto mt-10 bg-ice rounded-card p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+      >
+        <div
+          class="w-10 h-10 dashed-circle flex items-center justify-center text-primary shrink-0"
+        >
+          <AlertTriangle class="w-5 h-5" />
+        </div>
+        <p class="text-text-light font-semibold text-sm leading-relaxed flex-1">
+          Cette estimation est donnée à titre indicatif et ne constitue pas un
+          devis. Les montants réels peuvent varier selon votre situation
+          personnelle et les barèmes CAF en vigueur.
+        </p>
+        <Button href="/contact" variant="secondary" class="shrink-0">
+          Nous contacter
+        </Button>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // ========================================================
+  // Price simulator — configuration & calculation
+  // ========================================================
+
+  // --- Configurable rates (update these as needed) ---
+  const BASE_HOURLY_RATE = 12.0;
+  const EXTRA_CHILD_RATE_INCREASE = 0.2; // +20% per child from the 3rd
+  const FREE_CHILDREN_THRESHOLD = 2;
+
+  // --- CAF CMG constants (post-September 2025 reform, garde à domicile) ---
+  const CHR = 10.38; // Coût Horaire de Référence
+  const CMG_HOURLY_CEILING = 15.0; // Max hourly rate covered by CMG
+  const INCOME_FLOOR_COUPLE = 635; // Monthly income floor (couple)
+  const INCOME_FLOOR_SINGLE = 801; // Monthly income floor (single parent)
+  const WEEKS_PER_MONTH = 52 / 12;
+
+  // Taux d'effort for garde à domicile (indexed by number of children, 4 = 4+)
+  const TAUX_EFFORT: Record<number, number> = {
+    1: 0.001238,
+    2: 0.001032,
+    3: 0.000826,
+    4: 0.00062,
+  };
+
+  // --- Tax credit ---
+  const TAX_CREDIT_RATE = 0.5;
+  const TAX_CREDIT_ANNUAL_BASE = 12000;
+  const TAX_CREDIT_PER_CHILD = 1500;
+  const TAX_CREDIT_ANNUAL_MAX = 15000;
+
+  // --- State ---
+  let childrenCount = 1;
+  let hasChildUnder6 = true;
+  let weeklyHours = 10;
+  let annualIncome = 0;
+  let isSingleParent = false;
+
+  // --- DOM references ---
+  const childrenCountEl = document.getElementById("children-count")!;
+  const childrenMinusBtn = document.getElementById("children-minus")!;
+  const childrenPlusBtn = document.getElementById("children-plus")!;
+  const under6Group = document.getElementById("under6-group")!;
+  const under6Buttons = document.querySelectorAll(".under6-btn");
+  const hoursSlider = document.getElementById(
+    "weekly-hours-slider",
+  ) as HTMLInputElement;
+  const hoursInput = document.getElementById(
+    "weekly-hours",
+  ) as HTMLInputElement;
+  const incomeInput = document.getElementById(
+    "annual-income",
+  ) as HTMLInputElement;
+  const situationButtons = document.querySelectorAll(".situation-btn");
+
+  const resultHourlyRate = document.getElementById("result-hourly-rate")!;
+  const resultGross = document.getElementById("result-gross")!;
+  const resultCmg = document.getElementById("result-cmg")!;
+  const resultTaxCredit = document.getElementById("result-tax-credit")!;
+  const resultFinal = document.getElementById("result-final")!;
+  const resultEffectiveHourly = document.getElementById(
+    "result-effective-hourly",
+  )!;
+
+  // --- Formatter ---
+  const fmt = new Intl.NumberFormat("fr-FR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+  // --- Calculation ---
+  function calculate() {
+    // Effective hourly rate (surcharge from 3rd child)
+    const extraChildren = Math.max(0, childrenCount - FREE_CHILDREN_THRESHOLD);
+    const hourlyRate =
+      BASE_HOURLY_RATE * (1 + extraChildren * EXTRA_CHILD_RATE_INCREASE);
+
+    const monthlyHours = weeklyHours * WEEKS_PER_MONTH;
+    const grossMonthly = hourlyRate * monthlyHours;
+
+    // CMG (single parents: all children 3-12 are eligible)
+    let cmg = 0;
+    const cmgEligible = isSingleParent || hasChildUnder6;
+
+    if (cmgEligible && annualIncome > 0 && monthlyHours > 0) {
+      const monthlyIncome = annualIncome / 12;
+      const floor = isSingleParent ? INCOME_FLOOR_SINGLE : INCOME_FLOOR_COUPLE;
+      const effectiveIncome = Math.max(monthlyIncome, floor);
+
+      const tauxKey = Math.min(childrenCount, 4);
+      const taux = TAUX_EFFORT[tauxKey];
+
+      const cmgHourlyRate = Math.min(hourlyRate, CMG_HOURLY_CEILING);
+      const cmgGross = cmgHourlyRate * monthlyHours;
+
+      cmg = cmgGross * (1 - (effectiveIncome * taux) / CHR);
+      cmg = Math.max(cmg, 0);
+      cmg = Math.min(cmg, cmgGross);
+    }
+
+    // Tax credit
+    const annualCeiling = Math.min(
+      TAX_CREDIT_ANNUAL_BASE + childrenCount * TAX_CREDIT_PER_CHILD,
+      TAX_CREDIT_ANNUAL_MAX,
+    );
+    const monthlyCeiling = annualCeiling / 12;
+    const eligibleExpenses = Math.min(grossMonthly - cmg, monthlyCeiling);
+    const taxCredit = Math.max(eligibleExpenses, 0) * TAX_CREDIT_RATE;
+
+    // Final
+    const resteACharge = grossMonthly - cmg - taxCredit;
+    const effectiveHourly = monthlyHours > 0 ? resteACharge / monthlyHours : 0;
+
+    // Update DOM
+    resultHourlyRate.textContent = `${fmt.format(hourlyRate)} €/h`;
+    resultGross.textContent = `${fmt.format(grossMonthly)} €`;
+    resultCmg.textContent = `- ${fmt.format(cmg)} €`;
+    resultTaxCredit.textContent = `- ${fmt.format(taxCredit)} €`;
+    resultFinal.textContent = `${fmt.format(resteACharge)} €`;
+    resultEffectiveHourly.textContent = fmt.format(effectiveHourly);
+  }
+
+  // --- Pill button helpers ---
+  function setActivePill(buttons: NodeListOf<Element>, activeBtn: Element) {
+    buttons.forEach((btn) => {
+      btn.classList.remove("bg-primary", "text-white");
+      btn.classList.add(
+        "border-2",
+        "border-border",
+        "bg-background",
+        "text-text",
+      );
+    });
+    activeBtn.classList.remove(
+      "border-2",
+      "border-border",
+      "bg-background",
+      "text-text",
+    );
+    activeBtn.classList.add("bg-primary", "text-white");
+  }
+
+  // --- Event listeners ---
+
+  // Children stepper
+  childrenMinusBtn.addEventListener("click", () => {
+    if (childrenCount > 1) {
+      childrenCount--;
+      childrenCountEl.textContent = String(childrenCount);
+      calculate();
+    }
+  });
+
+  childrenPlusBtn.addEventListener("click", () => {
+    if (childrenCount < 6) {
+      childrenCount++;
+      childrenCountEl.textContent = String(childrenCount);
+      calculate();
+    }
+  });
+
+  // Under 6 toggle
+  under6Buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      hasChildUnder6 = (btn as HTMLElement).dataset.under6 === "true";
+      setActivePill(under6Buttons, btn);
+      calculate();
+    });
+  });
+
+  // Hours slider ↔ number input sync
+  hoursSlider.addEventListener("input", () => {
+    weeklyHours = Number(hoursSlider.value);
+    hoursInput.value = hoursSlider.value;
+    calculate();
+  });
+
+  hoursInput.addEventListener("input", () => {
+    let val = Number(hoursInput.value);
+    if (val < 1) val = 1;
+    if (val > 50) val = 50;
+    weeklyHours = val;
+    hoursSlider.value = String(val);
+    calculate();
+  });
+
+  // Annual income
+  incomeInput.addEventListener("input", () => {
+    annualIncome = Number(incomeInput.value) || 0;
+    calculate();
+  });
+
+  // Family situation
+  situationButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      isSingleParent = (btn as HTMLElement).dataset.situation === "single";
+      setActivePill(situationButtons, btn);
+
+      // Hide "under 6" question for single parents (always eligible up to 12)
+      if (isSingleParent) {
+        under6Group.classList.add("hidden");
+      } else {
+        under6Group.classList.remove("hidden");
+      }
+
+      calculate();
+    });
+  });
+
+  // Initial calculation
+  calculate();
+</script>
