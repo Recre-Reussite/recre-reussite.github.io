@@ -19,42 +19,97 @@ import {
   description="Simulateur tarifaire pour estimer votre budget garde d'enfants avec les aides CAF et le crédit d'impôt."
 >
   <!-- Section 1: Static Pricing Table -->
-  <section class="relative pt-16 md:pt-24 pb-8 md:pb-12 overflow-hidden bg-card">
+  <section
+    class="relative pt-16 md:pt-24 pb-8 md:pb-12 overflow-hidden bg-card"
+  >
     <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
     <div class="absolute top-16 left-[10%] hidden md:block">
-      <Doodle type="star" color="var(--color-yellow)" size={28} class="float opacity-35" />
+      <Doodle
+        type="star"
+        color="var(--color-yellow)"
+        size={28}
+        class="float opacity-35"
+      />
     </div>
     <div class="absolute bottom-12 right-[12%] hidden md:block">
-      <Doodle type="squiggle" color="var(--color-sky)" size={24} class="float-delay opacity-25" />
+      <Doodle
+        type="squiggle"
+        color="var(--color-sky)"
+        size={24}
+        class="float-delay opacity-25"
+      />
     </div>
 
     <div class="relative max-w-[1140px] mx-auto px-6">
       <SectionHeading subtitle="Tarifs" title="Nos tarifs" accent="tarifs" />
 
-      <div class="max-w-[800px] mx-auto bg-card rounded-card shadow-lg p-8 md:p-10">
+      <div
+        class="max-w-[800px] mx-auto bg-card rounded-card shadow-lg p-8 md:p-10"
+      >
         <table class="w-full text-left">
           <thead>
             <tr class="border-b-2 border-border">
-              <th class="py-3 pr-4 font-bold text-text text-sm uppercase tracking-wide">Prestation</th>
-              <th class="py-3 pl-4 text-right font-bold text-text text-sm uppercase tracking-wide">Prix unitaire</th>
+              <th
+                class="py-3 pr-4 font-bold text-text text-sm uppercase tracking-wide"
+                >Prestation</th
+              >
+              <th
+                class="py-3 pl-4 text-right font-bold text-text text-sm uppercase tracking-wide"
+                >Prix unitaire</th
+              >
             </tr>
           </thead>
           <tbody class="divide-y divide-border/50">
             <tr>
-              <td class="py-4 pr-4 font-semibold text-text">Garde — 1 heure</td>
-              <td class="py-4 pl-4 text-right font-bold text-primary text-lg">25,90 €</td>
+              <td class="py-4 pr-4">
+                <span class="font-semibold text-text">Garde — 1 heure</span>
+                <span class="block text-text-light text-sm mt-0.5"
+                  >Jusqu'à 2 enfants</span
+                >
+              </td>
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg"
+                >27,90 €</td
+              >
             </tr>
             <tr>
-              <td class="py-4 pr-4 font-semibold text-text">Garde — 1 journée</td>
-              <td class="py-4 pl-4 text-right font-bold text-primary text-lg">259,00 €</td>
+              <td class="py-4 pr-4">
+                <span class="font-semibold text-text"
+                  >Majoration enfant supplémentaire</span
+                >
+                <span class="block text-text-light text-sm mt-0.5"
+                  >À partir du 3<sup>e</sup> enfant</span
+                >
+              </td>
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg"
+                >+ 20 % / enfant</td
+              >
             </tr>
             <tr>
-              <td class="py-4 pr-4 font-semibold text-text">Frais de déplacement</td>
-              <td class="py-4 pl-4 text-right font-bold text-primary text-lg">0,80 € / km</td>
+              <td class="py-4 pr-4">
+                <span class="font-semibold text-text">Garde — Forfait 1 journée</span>
+                <span class="block text-text-light text-sm mt-0.5"
+                  >Jusqu'à 3 enfants</span
+                >
+              </td>
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg"
+                >259,00 €</td
+              >
             </tr>
             <tr>
-              <td class="py-4 pr-4 font-semibold text-text">Suppléments activité</td>
-              <td class="py-4 pl-4 text-right font-bold text-secondary text-lg">Sur devis</td>
+              <td class="py-4 pr-4 font-semibold text-text"
+                >Frais de déplacement</td
+              >
+              <td class="py-4 pl-4 text-right font-bold text-primary text-lg"
+                >0,80 € / km</td
+              >
+            </tr>
+            <tr>
+              <td class="py-4 pr-4 font-semibold text-text"
+                >Suppléments activité</td
+              >
+              <td class="py-4 pl-4 text-right font-bold text-secondary text-lg"
+                >Sur devis</td
+              >
             </tr>
           </tbody>
         </table>
@@ -62,8 +117,9 @@ import {
         <div class="mt-6 bg-cream rounded-card p-4 flex items-start gap-3">
           <Info class="w-5 h-5 text-purple shrink-0 mt-0.5" />
           <p class="text-text-light font-semibold text-sm leading-relaxed">
-            Les frais kilométriques ne sont pas inclus dans le simulateur ci-dessous.
-            Ils seront calculés en fonction de la distance entre votre domicile et celui de Julie.
+            Les frais kilométriques ne sont pas inclus dans le simulateur
+            ci-dessous. Ils seront calculés en fonction de la distance entre
+            votre domicile et celui de Julie.
           </p>
         </div>
       </div>
@@ -71,12 +127,21 @@ import {
   </section>
 
   <!-- Divider: pricing → simulator -->
-  <PuzzleDivider topColor="#FFFFFF" bottomColor="#F5F0E8" tabPosition="center" />
+  <PuzzleDivider
+    topColor="#FFFFFF"
+    bottomColor="#F5F0E8"
+    tabPosition="center"
+  />
 
   <!-- Section 2: Price Simulator -->
   <section class="relative pt-8 md:pt-12 pb-16 md:pb-24 overflow-hidden">
     <div class="absolute top-16 right-[8%] hidden md:block">
-      <Doodle type="spiral" color="var(--color-purple)" size={30} class="float opacity-25" />
+      <Doodle
+        type="spiral"
+        color="var(--color-purple)"
+        size={30}
+        class="float opacity-25"
+      />
     </div>
 
     <div class="relative max-w-[1140px] mx-auto px-6">
@@ -267,7 +332,7 @@ import {
                   >Taux horaire</span
                 >
                 <span id="result-hourly-rate" class="font-bold text-text"
-                  >25,90 €/h</span
+                  >27,90 €/h</span
                 >
               </div>
 
@@ -380,7 +445,7 @@ import {
   // ========================================================
 
   // --- Configurable rates (update these as needed) ---
-  const BASE_HOURLY_RATE = 25.9;
+  const BASE_HOURLY_RATE = 27.9;
   const EXTRA_CHILD_RATE_INCREASE = 0.2; // +20% per child from the 3rd
   const FREE_CHILDREN_THRESHOLD = 2;
 
