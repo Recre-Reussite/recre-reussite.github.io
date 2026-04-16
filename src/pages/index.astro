@@ -18,7 +18,33 @@ import {
   CalendarDays,
   TreePine,
   HandHeart,
+  ChevronLeft,
+  ChevronRight,
 } from "@lucide/astro";
+
+const testimonials = [
+  {
+    quote:
+      "Julie a gardé nos deux enfants pendant près d'un an et nous avons été très satisfaits. Elle était ponctuelle, organisée et savait s'adapter à nos horaires qui changeaient souvent. Les enfants étaient toujours contents quand elle arrivait, c'était le meilleur indicateur pour nous.",
+    name: "Sophie, maman de 2 enfants",
+    initial: "S",
+    type: "parent" as const,
+  },
+  {
+    quote:
+      "Notre fils est autiste et nous avions du mal à trouver une personne de confiance qui sache l'accompagner au quotidien. Julie a pris le temps de comprendre son fonctionnement, ses besoins et ses rituels. Elle fait preuve d'une patience et d'une bienveillance remarquables. Pour la première fois, nous le laissons sereinement.",
+    name: "Marc, papa",
+    initial: "M",
+    type: "parent" as const,
+  },
+  {
+    quote:
+      "J'aime bien qu'on fasse des activités ensemble comme le coloriage magique. Julie est trop cool et très gentille. Elle m'aide beaucoup pour faire mes devoirs même si je n'ai pas toujours envie. Elle me récupère à l'école. On a fait plein de balades à pied, en vélo ou en trottinette. Elle m'amène aux répétitions du conservatoire.",
+    name: "Élise, 11 ans",
+    initial: "É",
+    type: "enfant" as const,
+  },
+];
 ---
 
 <BaseLayout title="Présentation">
@@ -290,7 +316,7 @@ import {
   <PuzzleDivider topColor="#F5F0E8" bottomColor="#FFFFFF" tabPosition="center" />
 
   <!-- ============================================
-       TESTIMONIAL
+       TESTIMONIALS CAROUSEL
        ============================================ -->
   <section class="bg-card py-16 md:py-24 relative overflow-hidden">
     <!-- Floating decorations -->
@@ -303,7 +329,7 @@ import {
 
     <div class="max-w-[750px] mx-auto px-6 text-center reveal">
       <SectionHeading
-        subtitle="Témoignage"
+        subtitle="Témoignages"
         title="Ce qu'ils en disent"
         accent="disent"
       />
@@ -316,25 +342,82 @@ import {
         }
       </div>
 
-      <!-- Quote card with decorative border -->
-      <div class="relative bg-cream/50 rounded-card p-8 md:p-10 mb-8">
-        <!-- Big decorative quote mark -->
-        <span class="absolute -top-4 left-6 text-6xl text-secondary/20 font-display leading-none">&laquo;</span>
-        <blockquote class="text-lg md:text-xl italic leading-relaxed text-text-light relative z-10">
-          J'aime bien qu'on fasse des activités ensemble comme le coloriage
-          magique. Julie est trop cool et très gentille. Elle m'aide beaucoup pour
-          faire mes devoirs même si je n'ai pas toujours envie. Elle me récupère à
-          l'école. On a fait plein de balades à pied, en vélo ou en trottinette.
-          Elle m'amène aux répétitions du conservatoire.
-        </blockquote>
-        <span class="absolute -bottom-4 right-6 text-6xl text-secondary/20 font-display leading-none">&raquo;</span>
+      <!-- Carousel container -->
+      <div id="testimonial-carousel" class="relative">
+        {testimonials.map((t, index) => (
+          <div
+            class:list={[
+              "testimonial-slide transition-opacity duration-500",
+              index === 0 ? "opacity-100" : "opacity-0 absolute inset-0",
+            ]}
+            data-index={index}
+          >
+            <!-- Quote card -->
+            <div class="relative bg-cream/50 rounded-card p-8 md:p-10 mb-8">
+              <span class="absolute -top-4 left-6 text-6xl text-secondary/20 font-display leading-none">&laquo;</span>
+              <blockquote class="text-lg md:text-xl italic leading-relaxed text-text-light relative z-10">
+                {t.quote}
+              </blockquote>
+              <span class="absolute -bottom-4 right-6 text-6xl text-secondary/20 font-display leading-none">&raquo;</span>
+            </div>
+
+            <!-- Author -->
+            <div class="flex items-center justify-center gap-3">
+              <div class:list={[
+                "w-12 h-12 rounded-full flex items-center justify-center font-display text-xl",
+                t.type === "enfant" ? "bg-cta/15 text-cta" : "bg-purple/15 text-purple",
+              ]}>
+                {t.initial}
+              </div>
+              <div class="flex flex-col items-start">
+                <span class="font-bold text-primary text-lg">{t.name}</span>
+                <span class:list={[
+                  "text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded-pill",
+                  t.type === "enfant"
+                    ? "bg-sky/15 text-sky"
+                    : "bg-purple/15 text-purple",
+                ]}>
+                  {t.type === "enfant" ? "Enfant" : "Parent"}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div class="flex items-center justify-center gap-3">
-        <div class="w-12 h-12 bg-cta/15 rounded-full flex items-center justify-center text-cta font-display text-xl">
-          É
+      <!-- Navigation -->
+      <div class="flex items-center justify-center gap-6 mt-8">
+        <button
+          type="button"
+          id="testimonial-prev"
+          aria-label="Témoignage précédent"
+          class="w-10 h-10 rounded-full border-2 border-border bg-background flex items-center justify-center text-text hover:border-primary hover:text-primary transition-colors cursor-pointer"
+        >
+          <ChevronLeft class="w-5 h-5" />
+        </button>
+
+        <div class="flex gap-2" id="testimonial-dots">
+          {testimonials.map((_, i) => (
+            <button
+              type="button"
+              aria-label={`Témoignage ${i + 1}`}
+              data-dot={i}
+              class:list={[
+                "w-3 h-3 rounded-full transition-all duration-300 cursor-pointer",
+                i === 0 ? "bg-primary scale-125" : "bg-border hover:bg-primary/50",
+              ]}
+            />
+          ))}
         </div>
-        <span class="font-bold text-primary text-lg">Élise</span>
+
+        <button
+          type="button"
+          id="testimonial-next"
+          aria-label="Témoignage suivant"
+          class="w-10 h-10 rounded-full border-2 border-border bg-background flex items-center justify-center text-text hover:border-primary hover:text-primary transition-colors cursor-pointer"
+        >
+          <ChevronRight class="w-5 h-5" />
+        </button>
       </div>
     </div>
   </section>
@@ -524,5 +607,50 @@ import {
     );
 
     document.querySelectorAll(".reveal, .stagger-children").forEach((el) => observer.observe(el));
+  </script>
+
+  <script>
+    // Testimonial carousel
+    const slides = document.querySelectorAll<HTMLElement>(".testimonial-slide");
+    const dots = document.querySelectorAll<HTMLElement>("#testimonial-dots button");
+    const prevBtn = document.getElementById("testimonial-prev")!;
+    const nextBtn = document.getElementById("testimonial-next")!;
+    let currentSlide = 0;
+
+    function showSlide(index: number) {
+      slides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.remove("opacity-0", "absolute", "inset-0");
+          slide.classList.add("opacity-100");
+        } else {
+          slide.classList.remove("opacity-100");
+          slide.classList.add("opacity-0", "absolute", "inset-0");
+        }
+      });
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.remove("bg-border", "hover:bg-primary/50");
+          dot.classList.add("bg-primary", "scale-125");
+        } else {
+          dot.classList.remove("bg-primary", "scale-125");
+          dot.classList.add("bg-border", "hover:bg-primary/50");
+        }
+      });
+      currentSlide = index;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      showSlide((currentSlide - 1 + slides.length) % slides.length);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      showSlide((currentSlide + 1) % slides.length);
+    });
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        showSlide(Number(dot.dataset.dot));
+      });
+    });
   </script>
 </BaseLayout>
