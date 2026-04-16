@@ -381,7 +381,7 @@ const testimonials = [
           <div
             class:list={[
               "testimonial-slide transition-opacity duration-500",
-              index === 0 ? "opacity-100" : "opacity-0 absolute inset-0",
+              index === 0 ? "opacity-100" : "opacity-0 absolute inset-0 pointer-events-none",
             ]}
             data-index={index}
           >
@@ -643,11 +643,11 @@ const testimonials = [
     function showSlide(index: number) {
       slides.forEach((slide, i) => {
         if (i === index) {
-          slide.classList.remove("opacity-0", "absolute", "inset-0");
+          slide.classList.remove("opacity-0", "absolute", "inset-0", "pointer-events-none");
           slide.classList.add("opacity-100");
         } else {
           slide.classList.remove("opacity-100");
-          slide.classList.add("opacity-0", "absolute", "inset-0");
+          slide.classList.add("opacity-0", "absolute", "inset-0", "pointer-events-none");
         }
       });
       dots.forEach((dot, i) => {
@@ -662,17 +662,32 @@ const testimonials = [
       currentSlide = index;
     }
 
+    // Auto-scroll every 15 seconds, reset on user interaction
+    let autoPlayTimer = setInterval(() => {
+      showSlide((currentSlide + 1) % slides.length);
+    }, 15000);
+
+    function resetAutoPlay() {
+      clearInterval(autoPlayTimer);
+      autoPlayTimer = setInterval(() => {
+        showSlide((currentSlide + 1) % slides.length);
+      }, 15000);
+    }
+
     prevBtn.addEventListener("click", () => {
       showSlide((currentSlide - 1 + slides.length) % slides.length);
+      resetAutoPlay();
     });
 
     nextBtn.addEventListener("click", () => {
       showSlide((currentSlide + 1) % slides.length);
+      resetAutoPlay();
     });
 
     dots.forEach((dot) => {
       dot.addEventListener("click", () => {
         showSlide(Number(dot.dataset.dot));
+        resetAutoPlay();
       });
     });
   </script>
