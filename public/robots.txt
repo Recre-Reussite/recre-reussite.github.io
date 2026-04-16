@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://recre-reussite.fr/sitemap-index.xml

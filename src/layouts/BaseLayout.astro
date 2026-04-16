@@ -7,12 +7,18 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
 const {
   title,
-  description = "Récré & Réussite — Garde d'enfants à domicile à Caen",
+  description = "Récré & Réussite — Garde d'enfants à domicile à Caen et ses alentours. Sortie d'école, aide aux devoirs, activités ludiques.",
+  ogImage = "/images/banner.png",
 } = Astro.props;
+
+const fullTitle = `${title} · Récré & Réussite`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -21,6 +27,24 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL.href} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Récré & Réussite" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL.href} />
+
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/png"
@@ -35,13 +59,19 @@ const {
       href="/apple-touch-icon.png"
     />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>{title} · Récré & Réussite</title>
+
+    <title>{fullTitle}</title>
+
+    <!-- Structured Data -->
+    <slot name="head" />
   </head>
   <body class="bg-background text-text font-sans min-h-screen flex flex-col">
     <Navigation />

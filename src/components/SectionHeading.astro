@@ -3,9 +3,10 @@ interface Props {
   title: string;
   subtitle?: string;
   accent?: string;
+  as?: "h1" | "h2";
 }
 
-const { title, subtitle, accent } = Astro.props;
+const { title, subtitle, accent, as: Tag = "h2" } = Astro.props;
 ---
 
 <div class="text-center mb-14">
@@ -14,10 +15,10 @@ const { title, subtitle, accent } = Astro.props;
       {subtitle}
     </p>
   )}
-  <h2 class="font-display text-primary text-[32px] md:text-[44px] leading-tight">
+  <Tag class="font-display text-primary text-[32px] md:text-[44px] leading-tight">
     <Fragment set:html={accent
       ? title.replace(accent, `<span class="marker-highlight">${accent}</span>`)
       : title
     } />
-  </h2>
+  </Tag>
 </div>

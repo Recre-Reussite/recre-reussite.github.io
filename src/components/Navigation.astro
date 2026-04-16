@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { Home, Calculator, MessageCircle } from "@lucide/astro";
+import logoShort from "../assets/images/logo-recre-reussite-short.png";
 
 const currentPath = Astro.url.pathname;
 
@@ -13,9 +15,10 @@ const links = [
 <header class="bg-card/80 backdrop-blur-sm sticky top-0 z-50 border-b border-border/50">
   <nav class="flex justify-between items-center w-full px-6 py-3 max-w-[1140px] mx-auto">
     <a href="/" class="flex items-center gap-3 hover-wiggle">
-      <img
-        src="/images/logo-recre-reussite-short.png"
+      <Image
+        src={logoShort}
         alt="Logo Récré & Réussite"
+        height={56}
         class="h-14 w-auto"
       />
     </a>

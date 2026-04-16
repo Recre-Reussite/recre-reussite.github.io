@@ -5,7 +5,10 @@ import Doodle from "../components/Doodle.astro";
 import { Phone, Mail, MapPin, Send, Clock } from "@lucide/astro";
 ---
 
-<BaseLayout title="Contact">
+<BaseLayout
+  title="Contact"
+  description="Contactez Récré & Réussite pour une garde d'enfants à domicile sur Caen et ses alentours. Demandez un devis personnalisé."
+>
   <section class="relative py-16 md:py-24 overflow-hidden">
     <!-- Decorative -->
     <div class="absolute inset-0 scattered-dots pointer-events-none"></div>
@@ -21,6 +24,7 @@ import { Phone, Mail, MapPin, Send, Clock } from "@lucide/astro";
         subtitle="Contact"
         title="Parlons de vos besoins"
         accent="besoins"
+        as="h1"
       />
 
       <div class="max-w-[950px] mx-auto">
