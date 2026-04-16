@@ -11,11 +11,15 @@ import {
   Plus,
   AlertTriangle,
 } from "@lucide/astro";
+
+// Toggle to re-enable the price simulator (hidden: CAF aids & tax credit
+// are not available for micro-entreprise structures).
+const showSimulator = false;
 ---
 
 <BaseLayout
-  title="Prix & Aides"
-  description="Simulateur tarifaire pour estimer votre budget garde d'enfants avec les aides CAF et le crédit d'impôt."
+  title="Prix"
+  description="Tarifs de garde d'enfants à domicile : taux horaire, forfait journée de vacances et frais de déplacement."
 >
   <!-- Section 1: Static Pricing Table -->
   <section
@@ -67,7 +71,7 @@ import {
                 >
               </td>
               <td class="py-4 pl-4 text-right font-bold text-primary text-lg"
-                >27,90 €</td
+                >18,00 €</td
               >
             </tr>
             <tr>
@@ -85,13 +89,15 @@ import {
             </tr>
             <tr>
               <td class="py-4 pr-4">
-                <span class="font-semibold text-text">Garde — Forfait 1 journée</span>
+                <span class="font-semibold text-text"
+                  >Forfait journée complète — Vacances</span
+                >
                 <span class="block text-text-light text-sm mt-0.5"
                   >Jusqu'à 3 enfants</span
                 >
               </td>
               <td class="py-4 pl-4 text-right font-bold text-primary text-lg"
-                >259,00 €</td
+                >180,00 €</td
               >
             </tr>
             <tr>
@@ -116,9 +122,8 @@ import {
         <div class="mt-6 bg-cream rounded-card p-4 flex items-start gap-3">
           <Info class="w-5 h-5 text-purple shrink-0 mt-0.5" />
           <p class="text-text-light font-semibold text-sm leading-relaxed">
-            Les frais kilométriques ne sont pas inclus dans le simulateur
-            ci-dessous. Ils seront calculés en fonction de la distance entre
-            votre domicile et celui de Julie.
+            Les frais kilométriques sont calculés en fonction de la distance
+            entre votre domicile et celui de Julie.
           </p>
         </div>
       </div>
@@ -126,6 +131,7 @@ import {
   </section>
 
 
+  {showSimulator && (
   <!-- Section 2: Price Simulator -->
   <section class="relative pt-8 md:pt-12 pb-16 md:pb-24 overflow-hidden">
     <div class="absolute top-16 right-[8%] hidden md:block">
@@ -325,7 +331,7 @@ import {
                   >Taux horaire</span
                 >
                 <span id="result-hourly-rate" class="font-bold text-text"
-                  >27,90 €/h</span
+                  >18,00 €/h</span
                 >
               </div>
 
@@ -430,6 +436,7 @@ import {
       </div>
     </div>
   </section>
+  )}
 </BaseLayout>
 
 <script>
@@ -438,7 +445,7 @@ import {
   // ========================================================
 
   // --- Configurable rates (update these as needed) ---
-  const BASE_HOURLY_RATE = 27.9;
+  const BASE_HOURLY_RATE = 18.0;
   const EXTRA_CHILD_RATE_INCREASE = 0.2; // +20% per child from the 3rd
   const FREE_CHILDREN_THRESHOLD = 2;
 
@@ -471,6 +478,12 @@ import {
   let isSingleParent = false;
 
   // --- DOM references ---
+  // Guard: when the simulator section is hidden, its form elements are
+  // absent from the DOM. Bail out early so non-null assertions below
+  // don't throw on pages where the simulator is disabled.
+  if (!document.getElementById("children-count")) {
+    // Simulator is hidden — nothing to wire up.
+  } else {
   const childrenCountEl = document.getElementById("children-count")!;
   const childrenMinusBtn = document.getElementById("children-minus")!;
   const childrenPlusBtn = document.getElementById("children-plus")!;
@@ -643,4 +656,5 @@ import {
 
   // Initial calculation
   calculate();
+  }
 </script>
